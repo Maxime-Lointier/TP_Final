@@ -37,19 +37,28 @@ class Customer:
         rentals = iter(self._rentals)
 
         result = "Record for " + self._name + "\n"
+        frequent_renter_points, result, total_amount = self.amont_for_current_rental(frequent_renter_points, rentals,
+                                                                                     result, total_amount)
+
+        #add footer lines
+        result += "Amount owed is " + str(total_amount) + "\n"
+        result += "You earned " + str(frequent_renter_points) + \
+                " frequent renter points"
+        return result
+
+    def amont_for_current_rental(self, frequent_renter_points, rentals, result, total_amount):
         while True:
             try:
                 this_amount = 0.0
                 each = next(rentals)
             except StopIteration:
                 break
-            #determine amounts for each line
+            # determine amounts for each line
             if each.movie.price_code == Movie.REGULAR:
                 this_amount += 2
                 if each.days_rented > 2:
-
                     this_amount += (each.days_rented - 2) * 1.5
-                
+
             elif each.movie.price_code == Movie.NEW_RELEASE:
                 this_amount += each.days_rented * 3
             elif each.movie.price_code == Movie.CHILDRENS:
@@ -62,12 +71,7 @@ class Customer:
             if (each.movie.price_code == Movie.NEW_RELEASE) and \
                     each.days_rented > 1:
                 frequent_renter_points += 1
-            #show figures for this rental
+            # show figures for this rental
             result += "\t" + each.movie.title + "\t" + str(this_amount) + "\n"
             total_amount += this_amount
-
-        #add footer lines
-        result += "Amount owed is " + str(total_amount) + "\n"
-        result += "You earned " + str(frequent_renter_points) + \
-                " frequent renter points"
-        return result
+        return frequent_renter_points, result, total_amount
