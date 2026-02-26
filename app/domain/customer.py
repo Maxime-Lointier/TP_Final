@@ -36,8 +36,6 @@ class Customer:
 
         result = "Record for " + self._name + "\n"
         for each in rentals:
-            this_amount = 0.0
-
             this_amount = each.get_charge()
 
             frequent_renter_points +=1
