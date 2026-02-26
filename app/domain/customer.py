@@ -28,23 +28,31 @@ class Customer:
     def add_rental(self, arg: Rental):
         self._rentals.append(arg)
 
-    def statement(self) -> str:
+    def get_total_amount(self):
         total_amount = 0.0
+        rentals = self.rentals
+
+        for each in rentals:
+            total_amount += each.get_charge()
+        return total_amount
+
+    def get_total_frequent_renter_points(self):
         frequent_renter_points = 0
+        rentals = self.rentals
+
+        for each in rentals:
+            frequent_renter_points = each.get_total_frequent_renter_points()
+        return frequent_renter_points
+
+    def statement(self) -> str:
+
 
         rentals = iter(self._rentals)
 
         result = "Record for " + self._name + "\n"
-        for each in rentals:
-            this_amount = each.get_charge()
 
-            frequent_renter_points += each.get_total_frequent_renter_points()
-
-            result += "\t" + each.movie.title + "\t" + str(this_amount) + "\n"
-
-            total_amount += this_amount
-        result += "Amount owed is " + str(total_amount) + "\n"
-        result += "you earned" + str(frequent_renter_points) + "frequent renter point "
+        result += "Amount owed is " + str(self.get_total_amount()) + "\n"
+        result += "you earned" + str(self.get_total_frequent_renter_points()) + "frequent renter point "
 
         return result
 
