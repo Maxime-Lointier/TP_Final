@@ -38,7 +38,7 @@ class Customer:
         for each in rentals:
             this_amount = 0.0
 
-            this_amount = self.amont_for_current_rental(each)
+            this_amount = each.get_charge()
 
             frequent_renter_points +=1
 
@@ -51,12 +51,6 @@ class Customer:
         result += "you earned" + str(frequent_renter_points) +"frequent renter point "
 
         return  result
-
-        # add footer lines
-        result += "Amount owed is " + str(total_amount) + "\n"
-        result += "You earned " + str(frequent_renter_points) + \
-                  " frequent renter points"
-        return result
 
     def amont_for_current_rental(self, aRental: Rental):
         return  aRental.get_charge()
